@@ -3,25 +3,19 @@ version: '3'
 services:
 
   app-node:
-    image: nascito/app-node
     build:
       context: ./app-node
-    entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
-    command: node index.js
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 20s node index.js
     volumes:
       - ./app-node:/usr/src/app
-      - ./scripts:/scripts
     tty: true
     container_name: app-node
-    ports:
-      - "3000:3000"
     networks:
       - nodenet
-    depends_on: 
+    depends_on:
       - mysql
 
   nginx:
-    image: nascito/nginx
     build:
       context: ./nginx
     tty: true
@@ -30,24 +24,21 @@ services:
       - "8080:80"
     networks:
       - nodenet
-    depends_on: 
+    depends_on:
       - app-node
-    
+
   mysql:
-    image: mysql:latest
-    command: --innodb-use-native-aio=0
+    image: mysql:5.7
     container_name: db
     restart: always
     tty: true
     volumes:
-      - ./mysql:/var/lib/mysql
-      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./scripts:/docker-entrypoint-initdb.d
     environment:
       - MYSQL_DATABASE=nodedb
       - MYSQL_ROOT_PASSWORD=root
     networks:
       - nodenet
-    
 
 networks:
   nodenet:
