@@ -24,7 +24,7 @@ Our Go project image needs to be less than 2MB =)
 
 ### **Solution**
 
-Run
+Run:
 
 ```
 nascito/fullcycle
@@ -54,3 +54,13 @@ Upload everything to a repository and submit your delivery.
 The programming language for this challenge is Node/JavaScript.
 
 ### **Solution**
+
+1. Access the challenge-2 folder of the repository in your terminal;
+2. Run:
+
+```
+docker-compose up -d
+```
+
+3. Access http://localhost:3000
+4. Reload the page as many times as you want.
